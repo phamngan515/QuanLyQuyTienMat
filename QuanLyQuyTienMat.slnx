@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="BUS/BUS.csproj" />
+  <Project Path="DAL/DAL.csproj" />
+  <Project Path="GUI/GUI.csproj" />
+</Solution>
