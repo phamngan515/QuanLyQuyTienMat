@@ -22,7 +22,6 @@ public partial class QuanLyTienMatContext : DbContext
     public virtual DbSet<VaiTro> VaiTros { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=.;Database=QuanLyTienMat;Trusted_Connection=True;TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -87,7 +86,43 @@ public partial class QuanLyTienMatContext : DbContext
             entity.Property(e => e.VaiTroId).HasColumnName("VaiTroID");
             entity.Property(e => e.TenVaiTro).HasMaxLength(50);
         });
+        // 1. Dữ liệu VaiTro
+        modelBuilder.Entity<VaiTro>().HasData(
+            new { VaiTroId = 1, TenVaiTro = "Admin" },
+            new { VaiTroId = 2, TenVaiTro = "Kế toán" }
+        );
 
+        // 2. Dữ liệu NguoiDung (Pass: 123)
+        modelBuilder.Entity<NguoiDung>().HasData(
+            new
+            {
+                NguoiDungId = 1,
+                TenNguoiDung = "admin",
+                MatKhau = "202CB962AC59075B964B07152D234B70",
+                VaiTroId = 1
+            }
+        );
+
+        // 3. Dữ liệu GiaoDich mẫu
+        modelBuilder.Entity<GiaoDich>().HasData(
+            new
+            {
+                GiaoDichId = 1,
+                SoCt = "PT001",
+                NgayCt = new DateTime(2026, 3, 1),
+                SoTien = 10000000m,
+                TenDoiTuong = "Công ty ABC"
+                // Lưu ý: Các trường nullable không cần điền ở đây
+            },
+            new
+            {
+                GiaoDichId = 2,
+                SoCt = "PC001",
+                NgayCt = new DateTime(2026, 3, 5),
+                SoTien = 2500000m,
+                TenDoiTuong = "Điện lực Hà Nội"
+            }
+        );
         OnModelCreatingPartial(modelBuilder);
     }
 
